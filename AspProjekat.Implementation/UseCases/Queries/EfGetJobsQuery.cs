@@ -73,7 +73,7 @@ namespace AspProjekat.Implementation.UseCases.Queries
                     Id = x.Id,
                     Position = x.Position.Name,
                     Company = x.Company.Name,
-                    Technology = x.Technology.Select(t => new TechnologyDto
+                    Technologies = x.Technology.Select(t => new TechnologyDto
                     {
                         Id = t.TechnologyId,
                         Name = t.Technology.Name
@@ -86,6 +86,11 @@ namespace AspProjekat.Implementation.UseCases.Queries
                     {
                         Id = b.BenefitId,
                         Name = b.Benefit.Name
+                    }).ToList(),
+                    Categories = x.Categories.Select(b => new CategoryDto
+                    {
+                        Id = b.CategoryId,
+                        Name = b.Category.Name
                     }).ToList(),
                     Deadline = x.Deadline,
                     Remote = x.Remote.Name

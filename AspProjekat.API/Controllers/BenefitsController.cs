@@ -13,7 +13,7 @@ namespace AspProjekat.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BenefitsController : Controller
+    public class BenefitsController : ControllerBase
     {
         private IApplicationActor _actor;
         private UseCaseHandler _handler;

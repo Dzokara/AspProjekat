@@ -15,6 +15,8 @@ using AspProjekat.Application.UseCases.Commands.Benefits;
 using AspProjekat.Implementation.UseCases.Commands.Benefits;
 using AspProjekat.Application.UseCases.Commands.Categories;
 using AspProjekat.Implementation.UseCases.Commands.Categories;
+using AspProjekat.Application.UseCases.Commands.Technologies;
+using AspProjekat.Implementation.UseCases.Commands.Technologies;
 
 namespace AspProjekat.API.Core
 {
@@ -42,6 +44,9 @@ namespace AspProjekat.API.Core
             services.AddTransient<CreateCategoryDtoValidator>();
             services.AddTransient<IGetCategoriesQuery,EfGetCategoriesQuery>();
             services.AddTransient<ICreateCategoryCommand,EfCreateCategoryCommand>();
+            services.AddTransient<CreateTechnologyDtoValidator>();
+            services.AddTransient<IGetTechnologiesQuery, EfGetTechnologiesQuery>();
+            services.AddTransient<ICreateTechnologyCommand, EfCreateTechnologyCommand>();
         }
 
         public static Guid? GetTokenId(this HttpRequest request)

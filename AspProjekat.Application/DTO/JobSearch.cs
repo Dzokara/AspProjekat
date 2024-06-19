@@ -21,6 +21,8 @@ namespace AspProjekat.Application.DTO
 
         public IEnumerable<int>? Technologies { get; set; }
 
+        public IEnumerable<int> Categories { get; set; }
+
         public int? RemoteId { get; set; }
     }
 }

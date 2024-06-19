@@ -9,6 +9,6 @@ namespace AspProjekat.Domain
     public class Technology : NamedEntity
     {
 
-        public virtual ICollection<Job> Jobs { get; set; } = new HashSet<Job>();    
+        public virtual ICollection<JobTechnology> Jobs { get; set; } = new HashSet<JobTechnology>();    
     }
 }

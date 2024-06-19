@@ -38,7 +38,8 @@ namespace AspProjekat.Implementation.UseCases.Commands.Jobs
                 Deadline = data.Deadline,
                 RemoteId = data.RemoteId,
                 Technology = data.TechnologyIds.Select(id => new JobTechnology { TechnologyId = id }).ToList(),
-                Benefits = data.BenefitIds.Select(id => new BenefitJob { BenefitId = id }).ToList()
+                Benefits = data.BenefitIds.Select(id => new BenefitJob { BenefitId = id }).ToList(),
+                Categories = data.CategoryIds.Select(id=>new CategoryJob { CategoryId = id }).ToList(),
             };
 
             Context.Jobs.Add(job);

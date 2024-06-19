@@ -13,7 +13,7 @@ namespace AspProjekat.Application.DTO
 
         public string Company { get; set; }
 
-        public IEnumerable<TechnologyDto> Technology { get; set; }
+        public IEnumerable<TechnologyDto> Technologies { get; set; }
 
         public string Region { get; set; }
         public string Type { get; set; }
@@ -23,6 +23,8 @@ namespace AspProjekat.Application.DTO
         public decimal Salary { get; set; }
 
         public IEnumerable<BenefitDto> Benefits { get; set; }
+
+        public IEnumerable<CategoryDto> Categories { get; set; }
 
         public DateTime Deadline { get; set; }
 

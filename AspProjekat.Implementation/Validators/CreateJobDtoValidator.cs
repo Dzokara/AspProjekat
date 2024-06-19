@@ -35,6 +35,9 @@ namespace AspProjekat.Implementation.Validators
             RuleFor(x => x.BenefitIds)
                 .Must(ExistInBenefits).WithMessage("Some Benefit IDs do not exist.");
 
+            RuleFor(x => x.CategoryIds)
+                .Must(ExistInCategories).WithMessage("Some Category IDs do not exist.");
+
             RuleFor(x => x.Description)
                 .NotEmpty().WithMessage("Description is required.");
 
@@ -74,6 +77,12 @@ namespace AspProjekat.Implementation.Validators
         {
             var technologyIdsInDb = ctx.Technology.Select(t => t.Id).ToHashSet();
             return technologyIds.All(id => technologyIdsInDb.Contains(id));
+        }
+
+        private bool ExistInCategories(IEnumerable<int> categoryIds)
+        {
+            var categoryIdsInDb = ctx.Categories.Select(t => t.Id).ToHashSet();
+            return categoryIds.All(id => categoryIdsInDb.Contains(id));
         }
 
         private bool ExistInBenefits(IEnumerable<int> benefitIds)
