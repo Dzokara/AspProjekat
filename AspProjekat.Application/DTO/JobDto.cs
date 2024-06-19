@@ -11,7 +11,7 @@ namespace AspProjekat.Application.DTO
         public int Id { get; set; } 
         public string Position { get; set; }
 
-        public string Company { get; set; }
+        public CompanyDto Company { get; set; }
 
         public IEnumerable<TechnologyDto> Technologies { get; set; }
 

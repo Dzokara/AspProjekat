@@ -45,15 +45,22 @@ namespace AspProjekat.Implementation.UseCases.Queries
             }
             if (search.Benefits != null && search.Benefits.Any())
             {
-                query = query.Where(x => x.Benefits.Any(b => search.Benefits.Contains(b.BenefitId)));
+                var benefitIds = search.Benefits.Select(b => b.Id).ToList();
+                query = query.Where(x => x.Benefits.Any(b => benefitIds.Contains(b.BenefitId)));
             }
             if (search.Technologies != null && search.Technologies.Any())
             {
-                query = query.Where(x => x.Technology.Any(t=>search.Technologies.Contains(t.TechnologyId)));
+                var technologyIds = search.Technologies.Select(t => t.Id).ToList();
+                query = query.Where(x => x.Technology.Any(t => technologyIds.Contains(t.TechnologyId)));
             }
             if (search.RemoteId.HasValue)
             {
                 query = query.Where(x=>x.RemoteId == search.RemoteId);
+            }
+            if (search.Categories != null && search.Categories.Any())
+            {
+                var categoryIds = search.Categories.Select(c => c.Id).ToList();
+                query = query.Where(x => x.Categories.Any(t => categoryIds.Contains(t.CategoryId)));
             }
 
             int totalCount = query.Count();
@@ -72,7 +79,12 @@ namespace AspProjekat.Implementation.UseCases.Queries
                 {
                     Id = x.Id,
                     Position = x.Position.Name,
-                    Company = x.Company.Name,
+                    Company = new CompanyDto
+                    {
+                        Name = x.Company.Name,
+                        Image = x.Company.Image.Path,
+                        Description = x.Company.Description
+                    },
                     Technologies = x.Technology.Select(t => new TechnologyDto
                     {
                         Id = t.TechnologyId,

@@ -1,6 +1,7 @@
 ﻿using AspProjekat.Application;
 using AspProjekat.Application.DTO;
 using AspProjekat.Application.UseCases.Commands.Jobs;
+using AspProjekat.Application.UseCases.Queries;
 using AspProjekat.DataAccess;
 using AspProjekat.Domain;
 using AspProjekat.Implementation;
@@ -26,7 +27,9 @@ namespace AspProjekat.API.Controllers
             _context = context;
         }
 
-        
+        [HttpGet]
+        public IActionResult Get([FromQuery] JobSearch search, [FromServices] IGetJobsQuery query)
+          => Ok(_handler.HandleQuery(query, search));
 
         [Authorize]
         [HttpPost]

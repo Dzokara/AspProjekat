@@ -17,11 +17,11 @@ namespace AspProjekat.Application.DTO
 
         public decimal? Salary { get; set; }
 
-        public IEnumerable<int>? Benefits { get; set; } 
+        public IEnumerable<BenefitDto>? Benefits { get; set; } 
 
-        public IEnumerable<int>? Technologies { get; set; }
+        public IEnumerable<TechnologyDto>? Technologies { get; set; }
 
-        public IEnumerable<int> Categories { get; set; }
+        public IEnumerable<CategoryDto>? Categories { get; set; }
 
         public int? RemoteId { get; set; }
     }

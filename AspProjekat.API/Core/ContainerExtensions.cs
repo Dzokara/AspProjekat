@@ -23,6 +23,10 @@ using AspProjekat.Application.UseCases.Commands.Positions;
 using AspProjekat.Implementation.UseCases.Commands.Positions;
 using AspProjekat.Application.UseCases.Commands.Blogs;
 using AspProjekat.Implementation.UseCases.Commands.Blogs;
+using AspProjekat.Application.UseCases.Commands.Comments;
+using AspProjekat.Implementation.UseCases.Commands.Comments;
+using AspProjekat.Application.UseCases.Commands.Testimonials;
+using AspProjekat.Implementation.UseCases.Commands.Testimonials;
 
 namespace AspProjekat.API.Core
 {
@@ -62,6 +66,11 @@ namespace AspProjekat.API.Core
             services.AddTransient<CreateBlogDtoValidator>();
             services.AddTransient<ICreateBlogCommand, EfCreateBlogCommand>();
             services.AddTransient<IGetBlogsQuery, EfGetBlogsQuery>();
+            services.AddTransient<ICreateCommentCommand,EfCreateCommentCommand>();
+            services.AddTransient<CreateCommentDtoValidator>();
+            services.AddTransient<CreateTestimonialDtoValidator>();
+            services.AddTransient<ICreateTestimonialCommand,EfCreateTestimonialCommand>();
+            services.AddTransient<IGetTestimonialsQuery,EfGetTestimonialsQuery>();
         }
 
         public static Guid? GetTokenId(this HttpRequest request)
