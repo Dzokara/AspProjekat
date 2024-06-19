@@ -24,7 +24,7 @@ namespace AspProjekat.Domain
 
         public virtual Type Type { get; set; }
 
-        public virtual ICollection<Category> Categories { get; set; } = new HashSet<Category>();
+        public virtual ICollection<CategoryJob> Categories { get; set; } = new HashSet<CategoryJob>();
 
         public virtual Remote Remote{ get; set; }
 

@@ -11,6 +11,10 @@ using AspProjekat.Implementation.UseCases.Commands.Jobs;
 using AspProjekat.Application.UseCases.Commands.Jobs;
 using AspProjekat.Application.UseCases.Commands.Companies;
 using AspProjekat.Implementation.UseCases.Commands.Companies;
+using AspProjekat.Application.UseCases.Commands.Benefits;
+using AspProjekat.Implementation.UseCases.Commands.Benefits;
+using AspProjekat.Application.UseCases.Commands.Categories;
+using AspProjekat.Implementation.UseCases.Commands.Categories;
 
 namespace AspProjekat.API.Core
 {
@@ -32,6 +36,12 @@ namespace AspProjekat.API.Core
             services.AddTransient<ILikeJobCommand, EfLikeJobCommand>();
             services.AddTransient<ICreateJobCommand, EfCreateJobCommand>();
             services.AddTransient<IGetCompaniesQuery, EfGetCompaniesQuery>();
+            services.AddTransient<CreateBenefitDtoValidator>();
+            services.AddTransient<IGetBenefitsQuery,EfGetBenefitsQuery>();
+            services.AddTransient<ICreateBenefitCommand,EfCreateBenefitCommand>();
+            services.AddTransient<CreateCategoryDtoValidator>();
+            services.AddTransient<IGetCategoriesQuery,EfGetCategoriesQuery>();
+            services.AddTransient<ICreateCategoryCommand,EfCreateCategoryCommand>();
         }
 
         public static Guid? GetTokenId(this HttpRequest request)
