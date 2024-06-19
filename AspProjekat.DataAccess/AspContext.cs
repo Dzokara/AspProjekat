@@ -43,6 +43,16 @@ namespace AspProjekat.DataAccess
                 x.UseCaseId
             });
 
+            modelBuilder.Entity<JobUser>()
+                        .HasKey(x => new { x.JobId, x.UserId });
+
+            modelBuilder.Entity<BenefitJob>()
+                        .HasKey(x => new { x.BenefitId, x.JobId });
+            modelBuilder.Entity<JobTechnology>()
+                        .HasKey(x => new { x.JobId, x.TechnologyId });
+            modelBuilder.Entity<CategoryJob>()
+                        .HasKey(x => new { x.CategoryId, x.JobId });
+
 
             base.OnModelCreating(modelBuilder);
         }
@@ -91,6 +101,13 @@ namespace AspProjekat.DataAccess
         public DbSet<User> Users { get; set; }  
         public DbSet<Technology> Technology { get; set; }
 
+        public DbSet<JobTechnology> JobTechnology { get; set; }
+
+        public DbSet<BenefitJob> BenefitJobs { get; set; }
+
+        public DbSet<CategoryJob> CategoryJobs { get; set; }
+
+        public DbSet<JobUser> JobUser { get; set; }
 
         public DbSet<ErrorLog> ErrorLogs { get; set; }
         public DbSet<UserUseCase> UserUseCases { get; set; }

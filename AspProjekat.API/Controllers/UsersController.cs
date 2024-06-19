@@ -1,5 +1,6 @@
 ﻿using AspProjekat.Application.DTO;
 using AspProjekat.Application.UseCases.Commands.Users;
+using AspProjekat.Application.UseCases.Queries;
 using AspProjekat.Implementation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@ namespace AspProjekat.API.Controllers
             _useCaseHandler = commandHandler;
         }
 
-        // POST api/<UsersController>
+        
         [HttpPost]
         public IActionResult Post([FromBody] RegisterUserDto dto, [FromServices] IRegisterUserCommand cmd)
         {
@@ -25,20 +26,21 @@ namespace AspProjekat.API.Controllers
             return StatusCode(201);
         }
 
-        //[HttpGet]
-        //public IActionResult Get([FromQuery] UserSearch search, [FromServices] IGetUsersQuery query)
-        //    => Ok(_useCaseHandler.HandleQuery(query, search));
+        [HttpGet]
+        public IActionResult Get([FromQuery] UserSearch search, [FromServices] IGetUsersQuery query)
+            => Ok(_useCaseHandler.HandleQuery(query, search));
 
-        //// PUT /api/users/5/access
-        //[HttpPut("{id}/access")]
-        //public IActionResult ModifyAccess(int id, [FromBody] UpdateUserAccessDto dto,
-        //                                          [FromServices] IUpdateUseAccessCommand command)
-        //{
-        //    dto.UserId = id;
-        //    _useCaseHandler.HandleCommand(command, dto);
+        // PUT /api/users/5/access
+        [HttpPut("{id}/access")]
+        public IActionResult ModifyAccess(int id, [FromBody] UpdateUserAccessDto dto,
+                                                  [FromServices] IUpdateUseAccessCommand command)
+        {
+            dto.UserId = id;
+            _useCaseHandler.HandleCommand(command, dto);
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
 
     }
 }
+

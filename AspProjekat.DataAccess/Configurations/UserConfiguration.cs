@@ -34,9 +34,6 @@ namespace AspProjekat.DataAccess.Configurations
             builder.Property(x => x.Password)
                    .IsRequired()
                    .HasMaxLength(120);
-
-            builder.HasMany(x => x.SavedJobs)
-                   .WithMany(x => x.SavedUsers);
                
             builder.HasMany(x=>x.Comments).WithOne(x=>x.Author).HasForeignKey(x=>x.AuthorId).OnDelete(DeleteBehavior.Restrict);
 

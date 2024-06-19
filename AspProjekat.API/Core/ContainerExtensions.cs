@@ -5,6 +5,10 @@ using System.IdentityModel.Tokens.Jwt;
 using AspProjekat.Implementation.Validators;
 using AspProjekat.Application.UseCases.Commands.Users;
 using AspProjekat.Implementation.UseCases.Commands.Users;
+using AspProjekat.Application.UseCases.Queries;
+using AspProjekat.Implementation.UseCases.Queries;
+using AspProjekat.Implementation.UseCases.Commands.Jobs;
+using AspProjekat.Application.UseCases.Commands.Jobs;
 
 namespace AspProjekat.API.Core
 {
@@ -13,18 +17,19 @@ namespace AspProjekat.API.Core
         public static void AddUseCases(this IServiceCollection services)
         {
             //services.AddTransient<CreateCategoryDtoValidator>();
-            //services.AddTransient<UpdateUserAccessDtoValidator>();
+            services.AddTransient<UpdateUserAccessDtoValidator>();
             //services.AddTransient<CreateImagePostDtoValidator>();
             //services.AddTransient<ICreateCategoryCommand, EfCreateCategoryCommand>();
-            //services.AddTransient<IUpdateUseAccessCommand, EfUpdateUserAccessCommand>();
-            //services.AddTransient<ICreateImagePostCommand, EfCreateImagePostCommand>();
-            //services.AddTransient<UpdateCategoryValidator>();
+            services.AddTransient<IUpdateUseAccessCommand, EfUpdateUserAccessCommand>();
+            services.AddTransient<IGetJobsQuery,EfGetJobsQuery>();
             services.AddTransient<UseCaseHandler>();
             services.AddTransient<IRegisterUserCommand, EfRegisterUserCommand>();
             services.AddTransient<IUseCaseLogger, SPUseCaseLogger>();
             services.AddTransient<RegisterUserDtoValidator>();
-            //services.AddTransient<IGetUsersQuery, EfGetUsersQuery>();
-            //services.AddTransient<ILikePostCommand, EfLikePostCommand>();
+            services.AddTransient<CreateJobDtoValidator>();
+            services.AddTransient<IGetUsersQuery, EfGetUsersQuery>();
+            services.AddTransient<ILikeJobCommand, EfLikeJobCommand>();
+            services.AddTransient<ICreateJobCommand, EfCreateJobCommand>();
         }
 
         public static Guid? GetTokenId(this HttpRequest request)

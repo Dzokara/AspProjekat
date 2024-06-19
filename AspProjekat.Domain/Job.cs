@@ -32,11 +32,11 @@ namespace AspProjekat.Domain
 
         public virtual Position Position { get; set; } 
 
-        public virtual ICollection<Benefit> Benefits { get; set; } = new HashSet<Benefit>();
+        public virtual ICollection<BenefitJob> Benefits { get; set; } = new HashSet<BenefitJob>();
 
-        public virtual ICollection<Technology> Technology { get; set; } = new HashSet<Technology>();
+        public virtual ICollection<JobTechnology> Technology { get; set; } = new HashSet<JobTechnology>();
 
-        public virtual ICollection<User> SavedUsers {  get; set; }  = new HashSet<User>();  
+        public virtual ICollection<JobUser> SavedUsers {  get; set; }  = new HashSet<JobUser>();  
 
     }
 }

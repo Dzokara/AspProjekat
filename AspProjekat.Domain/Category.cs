@@ -8,6 +8,6 @@ namespace AspProjekat.Domain
 {
     public class Category : NamedEntity
     {
-        public virtual ICollection<Job> Jobs { get; set; } = new HashSet<Job>();
+        public virtual ICollection<CategoryJob> Jobs { get; set; } = new HashSet<CategoryJob>();
     }
 }

@@ -25,11 +25,7 @@ namespace AspProjekat.DataAccess.Configurations
 
             builder.HasOne(x=>x.Remote).WithMany(x=>x.Jobs).HasForeignKey(x=>x.RemoteId).OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasMany(x => x.Benefits).WithMany(x => x.Jobs);
-
-            builder.HasMany(x => x.Categories).WithMany(x => x.Jobs);
-
-            builder.HasMany(x => x.Technology).WithMany(x => x.Jobs);
+        
 
             
            

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AspProjekat.DataAccess.Migrations
 {
     [DbContext(typeof(AspContext))]
-    [Migration("20240613200423_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240619113321_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,6 +49,21 @@ namespace AspProjekat.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Benefits");
+                });
+
+            modelBuilder.Entity("AspProjekat.Domain.BenefitJob", b =>
+                {
+                    b.Property<int>("BenefitId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("JobId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BenefitId", "JobId");
+
+                    b.HasIndex("JobId");
+
+                    b.ToTable("BenefitJobs");
                 });
 
             modelBuilder.Entity("AspProjekat.Domain.Blog", b =>
@@ -104,6 +119,9 @@ namespace AspProjekat.DataAccess.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("JobId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -113,7 +131,24 @@ namespace AspProjekat.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("JobId");
+
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("AspProjekat.Domain.CategoryJob", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("JobId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoryId", "JobId");
+
+                    b.HasIndex("JobId");
+
+                    b.ToTable("CategoryJobs");
                 });
 
             modelBuilder.Entity("AspProjekat.Domain.Comment", b =>
@@ -265,6 +300,9 @@ namespace AspProjekat.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("BenefitId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
@@ -298,6 +336,9 @@ namespace AspProjekat.DataAccess.Migrations
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int?>("TechnologyId")
+                        .HasColumnType("int");
+
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
 
@@ -305,6 +346,8 @@ namespace AspProjekat.DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BenefitId");
 
                     b.HasIndex("CompanyId");
 
@@ -314,11 +357,46 @@ namespace AspProjekat.DataAccess.Migrations
 
                     b.HasIndex("RemoteId");
 
+                    b.HasIndex("TechnologyId");
+
                     b.HasIndex("TypeId");
 
                     b.ToTable("Jobs");
 
                     b.UseTptMappingStrategy();
+                });
+
+            modelBuilder.Entity("AspProjekat.Domain.JobTechnology", b =>
+                {
+                    b.Property<int>("JobId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TechnologyId")
+                        .HasColumnType("int");
+
+                    b.HasKey("JobId", "TechnologyId");
+
+                    b.HasIndex("TechnologyId");
+
+                    b.ToTable("JobTechnology");
+                });
+
+            modelBuilder.Entity("AspProjekat.Domain.JobUser", b =>
+                {
+                    b.Property<int>("JobId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("JobId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("JobUser");
                 });
 
             modelBuilder.Entity("AspProjekat.Domain.Position", b =>
@@ -591,66 +669,6 @@ namespace AspProjekat.DataAccess.Migrations
                     b.ToTable("UserUseCases");
                 });
 
-            modelBuilder.Entity("BenefitJob", b =>
-                {
-                    b.Property<int>("BenefitsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("JobsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BenefitsId", "JobsId");
-
-                    b.HasIndex("JobsId");
-
-                    b.ToTable("BenefitJob");
-                });
-
-            modelBuilder.Entity("CategoryJob", b =>
-                {
-                    b.Property<int>("CategoriesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("JobsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoriesId", "JobsId");
-
-                    b.HasIndex("JobsId");
-
-                    b.ToTable("CategoryJob");
-                });
-
-            modelBuilder.Entity("JobTechnology", b =>
-                {
-                    b.Property<int>("JobsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TechnologyId")
-                        .HasColumnType("int");
-
-                    b.HasKey("JobsId", "TechnologyId");
-
-                    b.HasIndex("TechnologyId");
-
-                    b.ToTable("JobTechnology");
-                });
-
-            modelBuilder.Entity("JobUser", b =>
-                {
-                    b.Property<int>("SavedJobsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SavedUsersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("SavedJobsId", "SavedUsersId");
-
-                    b.HasIndex("SavedUsersId");
-
-                    b.ToTable("JobUser");
-                });
-
             modelBuilder.Entity("AspProjekat.Domain.BlogImage", b =>
                 {
                     b.HasBaseType("AspProjekat.Domain.Image");
@@ -665,6 +683,25 @@ namespace AspProjekat.DataAccess.Migrations
                     b.HasDiscriminator().HasValue("CompanyImage");
                 });
 
+            modelBuilder.Entity("AspProjekat.Domain.BenefitJob", b =>
+                {
+                    b.HasOne("AspProjekat.Domain.Benefit", "Benefit")
+                        .WithMany()
+                        .HasForeignKey("BenefitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AspProjekat.Domain.Job", "Job")
+                        .WithMany("Benefits")
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Benefit");
+
+                    b.Navigation("Job");
+                });
+
             modelBuilder.Entity("AspProjekat.Domain.Blog", b =>
                 {
                     b.HasOne("AspProjekat.Domain.BlogImage", "Image")
@@ -674,6 +711,32 @@ namespace AspProjekat.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Image");
+                });
+
+            modelBuilder.Entity("AspProjekat.Domain.Category", b =>
+                {
+                    b.HasOne("AspProjekat.Domain.Job", null)
+                        .WithMany("Categories")
+                        .HasForeignKey("JobId");
+                });
+
+            modelBuilder.Entity("AspProjekat.Domain.CategoryJob", b =>
+                {
+                    b.HasOne("AspProjekat.Domain.Category", "Category")
+                        .WithMany("Jobs")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AspProjekat.Domain.Job", "Job")
+                        .WithMany()
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Job");
                 });
 
             modelBuilder.Entity("AspProjekat.Domain.Comment", b =>
@@ -708,6 +771,10 @@ namespace AspProjekat.DataAccess.Migrations
 
             modelBuilder.Entity("AspProjekat.Domain.Job", b =>
                 {
+                    b.HasOne("AspProjekat.Domain.Benefit", null)
+                        .WithMany("Jobs")
+                        .HasForeignKey("BenefitId");
+
                     b.HasOne("AspProjekat.Domain.Company", "Company")
                         .WithMany("Jobs")
                         .HasForeignKey("CompanyId")
@@ -732,6 +799,10 @@ namespace AspProjekat.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("AspProjekat.Domain.Technology", null)
+                        .WithMany("Jobs")
+                        .HasForeignKey("TechnologyId");
+
                     b.HasOne("AspProjekat.Domain.Type", "Type")
                         .WithMany("Jobs")
                         .HasForeignKey("TypeId")
@@ -747,6 +818,44 @@ namespace AspProjekat.DataAccess.Migrations
                     b.Navigation("Remote");
 
                     b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("AspProjekat.Domain.JobTechnology", b =>
+                {
+                    b.HasOne("AspProjekat.Domain.Job", "Job")
+                        .WithMany("Technology")
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AspProjekat.Domain.Technology", "Technology")
+                        .WithMany()
+                        .HasForeignKey("TechnologyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Job");
+
+                    b.Navigation("Technology");
+                });
+
+            modelBuilder.Entity("AspProjekat.Domain.JobUser", b =>
+                {
+                    b.HasOne("AspProjekat.Domain.Job", "Job")
+                        .WithMany("SavedUsers")
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AspProjekat.Domain.User", "User")
+                        .WithMany("SavedJobs")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Job");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AspProjekat.Domain.Testimonial", b =>
@@ -771,64 +880,9 @@ namespace AspProjekat.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("BenefitJob", b =>
+            modelBuilder.Entity("AspProjekat.Domain.Benefit", b =>
                 {
-                    b.HasOne("AspProjekat.Domain.Benefit", null)
-                        .WithMany()
-                        .HasForeignKey("BenefitsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AspProjekat.Domain.Job", null)
-                        .WithMany()
-                        .HasForeignKey("JobsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("CategoryJob", b =>
-                {
-                    b.HasOne("AspProjekat.Domain.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AspProjekat.Domain.Job", null)
-                        .WithMany()
-                        .HasForeignKey("JobsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("JobTechnology", b =>
-                {
-                    b.HasOne("AspProjekat.Domain.Job", null)
-                        .WithMany()
-                        .HasForeignKey("JobsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AspProjekat.Domain.Technology", null)
-                        .WithMany()
-                        .HasForeignKey("TechnologyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("JobUser", b =>
-                {
-                    b.HasOne("AspProjekat.Domain.Job", null)
-                        .WithMany()
-                        .HasForeignKey("SavedJobsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AspProjekat.Domain.User", null)
-                        .WithMany()
-                        .HasForeignKey("SavedUsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Jobs");
                 });
 
             modelBuilder.Entity("AspProjekat.Domain.Blog", b =>
@@ -836,9 +890,25 @@ namespace AspProjekat.DataAccess.Migrations
                     b.Navigation("Comments");
                 });
 
+            modelBuilder.Entity("AspProjekat.Domain.Category", b =>
+                {
+                    b.Navigation("Jobs");
+                });
+
             modelBuilder.Entity("AspProjekat.Domain.Company", b =>
                 {
                     b.Navigation("Jobs");
+                });
+
+            modelBuilder.Entity("AspProjekat.Domain.Job", b =>
+                {
+                    b.Navigation("Benefits");
+
+                    b.Navigation("Categories");
+
+                    b.Navigation("SavedUsers");
+
+                    b.Navigation("Technology");
                 });
 
             modelBuilder.Entity("AspProjekat.Domain.Position", b =>
@@ -856,6 +926,11 @@ namespace AspProjekat.DataAccess.Migrations
                     b.Navigation("Jobs");
                 });
 
+            modelBuilder.Entity("AspProjekat.Domain.Technology", b =>
+                {
+                    b.Navigation("Jobs");
+                });
+
             modelBuilder.Entity("AspProjekat.Domain.Type", b =>
                 {
                     b.Navigation("Jobs");
@@ -864,6 +939,8 @@ namespace AspProjekat.DataAccess.Migrations
             modelBuilder.Entity("AspProjekat.Domain.User", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("SavedJobs");
 
                     b.Navigation("Testimonials");
 

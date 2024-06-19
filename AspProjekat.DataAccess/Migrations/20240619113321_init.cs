@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AspProjekat.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -25,22 +25,6 @@ namespace AspProjekat.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Benefits", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Categories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -64,6 +48,7 @@ namespace AspProjekat.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Path = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true)
@@ -322,6 +307,8 @@ namespace AspProjekat.DataAccess.Migrations
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Salary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Deadline = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BenefitId = table.Column<int>(type: "int", nullable: true),
+                    TechnologyId = table.Column<int>(type: "int", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true)
@@ -329,6 +316,11 @@ namespace AspProjekat.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Jobs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Jobs_Benefits_BenefitId",
+                        column: x => x.BenefitId,
+                        principalTable: "Benefits",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Jobs_Companies_CompanyId",
                         column: x => x.CompanyId,
@@ -354,6 +346,11 @@ namespace AspProjekat.DataAccess.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                        name: "FK_Jobs_Technology_TechnologyId",
+                        column: x => x.TechnologyId,
+                        principalTable: "Technology",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Jobs_Types_TypeId",
                         column: x => x.TypeId,
                         principalTable: "Types",
@@ -362,66 +359,64 @@ namespace AspProjekat.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BenefitJob",
+                name: "BenefitJobs",
                 columns: table => new
                 {
-                    BenefitsId = table.Column<int>(type: "int", nullable: false),
-                    JobsId = table.Column<int>(type: "int", nullable: false)
+                    BenefitId = table.Column<int>(type: "int", nullable: false),
+                    JobId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BenefitJob", x => new { x.BenefitsId, x.JobsId });
+                    table.PrimaryKey("PK_BenefitJobs", x => new { x.BenefitId, x.JobId });
                     table.ForeignKey(
-                        name: "FK_BenefitJob_Benefits_BenefitsId",
-                        column: x => x.BenefitsId,
+                        name: "FK_BenefitJobs_Benefits_BenefitId",
+                        column: x => x.BenefitId,
                         principalTable: "Benefits",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BenefitJob_Jobs_JobsId",
-                        column: x => x.JobsId,
+                        name: "FK_BenefitJobs_Jobs_JobId",
+                        column: x => x.JobId,
                         principalTable: "Jobs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "CategoryJob",
+                name: "Categories",
                 columns: table => new
                 {
-                    CategoriesId = table.Column<int>(type: "int", nullable: false),
-                    JobsId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    JobId = table.Column<int>(type: "int", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CategoryJob", x => new { x.CategoriesId, x.JobsId });
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CategoryJob_Categories_CategoriesId",
-                        column: x => x.CategoriesId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CategoryJob_Jobs_JobsId",
-                        column: x => x.JobsId,
+                        name: "FK_Categories_Jobs_JobId",
+                        column: x => x.JobId,
                         principalTable: "Jobs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "JobTechnology",
                 columns: table => new
                 {
-                    JobsId = table.Column<int>(type: "int", nullable: false),
-                    TechnologyId = table.Column<int>(type: "int", nullable: false)
+                    TechnologyId = table.Column<int>(type: "int", nullable: false),
+                    JobId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JobTechnology", x => new { x.JobsId, x.TechnologyId });
+                    table.PrimaryKey("PK_JobTechnology", x => new { x.JobId, x.TechnologyId });
                     table.ForeignKey(
-                        name: "FK_JobTechnology_Jobs_JobsId",
-                        column: x => x.JobsId,
+                        name: "FK_JobTechnology_Jobs_JobId",
+                        column: x => x.JobId,
                         principalTable: "Jobs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -437,30 +432,55 @@ namespace AspProjekat.DataAccess.Migrations
                 name: "JobUser",
                 columns: table => new
                 {
-                    SavedJobsId = table.Column<int>(type: "int", nullable: false),
-                    SavedUsersId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    JobId = table.Column<int>(type: "int", nullable: false),
+                    Time = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JobUser", x => new { x.SavedJobsId, x.SavedUsersId });
+                    table.PrimaryKey("PK_JobUser", x => new { x.JobId, x.UserId });
                     table.ForeignKey(
-                        name: "FK_JobUser_Jobs_SavedJobsId",
-                        column: x => x.SavedJobsId,
+                        name: "FK_JobUser_Jobs_JobId",
+                        column: x => x.JobId,
                         principalTable: "Jobs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_JobUser_Users_SavedUsersId",
-                        column: x => x.SavedUsersId,
+                        name: "FK_JobUser_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "CategoryJobs",
+                columns: table => new
+                {
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    JobId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CategoryJobs", x => new { x.CategoryId, x.JobId });
+                    table.ForeignKey(
+                        name: "FK_CategoryJobs_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CategoryJobs_Jobs_JobId",
+                        column: x => x.JobId,
+                        principalTable: "Jobs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
-                name: "IX_BenefitJob_JobsId",
-                table: "BenefitJob",
-                column: "JobsId");
+                name: "IX_BenefitJobs_JobId",
+                table: "BenefitJobs",
+                column: "JobId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Blogs_ImageId",
@@ -468,9 +488,14 @@ namespace AspProjekat.DataAccess.Migrations
                 column: "ImageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CategoryJob_JobsId",
-                table: "CategoryJob",
-                column: "JobsId");
+                name: "IX_Categories_JobId",
+                table: "Categories",
+                column: "JobId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CategoryJobs_JobId",
+                table: "CategoryJobs",
+                column: "JobId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_AuthorId",
@@ -486,6 +511,11 @@ namespace AspProjekat.DataAccess.Migrations
                 name: "IX_Companies_ImageId",
                 table: "Companies",
                 column: "ImageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Jobs_BenefitId",
+                table: "Jobs",
+                column: "BenefitId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Jobs_CompanyId",
@@ -508,6 +538,11 @@ namespace AspProjekat.DataAccess.Migrations
                 column: "RemoteId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Jobs_TechnologyId",
+                table: "Jobs",
+                column: "TechnologyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Jobs_TypeId",
                 table: "Jobs",
                 column: "TypeId");
@@ -518,9 +553,9 @@ namespace AspProjekat.DataAccess.Migrations
                 column: "TechnologyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_JobUser_SavedUsersId",
+                name: "IX_JobUser_UserId",
                 table: "JobUser",
-                column: "SavedUsersId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Testimonials_UserId",
@@ -550,10 +585,10 @@ namespace AspProjekat.DataAccess.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BenefitJob");
+                name: "BenefitJobs");
 
             migrationBuilder.DropTable(
-                name: "CategoryJob");
+                name: "CategoryJobs");
 
             migrationBuilder.DropTable(
                 name: "Comments");
@@ -577,22 +612,19 @@ namespace AspProjekat.DataAccess.Migrations
                 name: "UserUseCases");
 
             migrationBuilder.DropTable(
-                name: "Benefits");
-
-            migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Blogs");
 
             migrationBuilder.DropTable(
-                name: "Technology");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Jobs");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Benefits");
 
             migrationBuilder.DropTable(
                 name: "Companies");
@@ -605,6 +637,9 @@ namespace AspProjekat.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Remote");
+
+            migrationBuilder.DropTable(
+                name: "Technology");
 
             migrationBuilder.DropTable(
                 name: "Types");

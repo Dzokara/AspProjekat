@@ -22,7 +22,7 @@ namespace AspProjekat.Domain
 
         public virtual ICollection<UserUseCase> UseCases { get; set; } = new HashSet<UserUseCase>();
 
-        public virtual ICollection<Job> SavedJobs { get; set; } = new HashSet<Job>();
+        public virtual ICollection<JobUser> SavedJobs { get; set; } = new HashSet<JobUser>();
 
         public virtual ICollection<Testimonial> Testimonials { get; set; } = new HashSet<Testimonial>();
 
