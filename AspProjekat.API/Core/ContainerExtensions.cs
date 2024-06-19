@@ -71,6 +71,7 @@ namespace AspProjekat.API.Core
             services.AddTransient<CreateTestimonialDtoValidator>();
             services.AddTransient<ICreateTestimonialCommand,EfCreateTestimonialCommand>();
             services.AddTransient<IGetTestimonialsQuery,EfGetTestimonialsQuery>();
+            services.AddTransient<IGetAuditLogQuery,EfGetAuditLogsQuery>();
         }
 
         public static Guid? GetTokenId(this HttpRequest request)
