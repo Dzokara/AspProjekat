@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AspProjekat.Application.DTO
 {
-    public class UserSearch : PagedSearch
+    public class CompanySearch : PagedSearch
     {
         public string? Keyword { get; set; }
     }

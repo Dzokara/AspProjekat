@@ -8,11 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AspProjekat.Domain\AspProjekat.Domain.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UseCases\Commands\Companies\" />
+    <ProjectReference Include="..\AspProjekat.Domain\AspProjekat.Domain.csproj" />
   </ItemGroup>
 
 </Project>

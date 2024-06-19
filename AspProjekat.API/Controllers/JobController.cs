@@ -26,24 +26,7 @@ namespace AspProjekat.API.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public IActionResult Get()
-        {
-            try
-            {
-                return Ok(UseCaseInfo.AllUseCases);
-            }
-            catch (Exception ex)
-            {
-
-                if (ex is UnauthorizedAccessException u)
-                {
-                    return Unauthorized();
-                }
-
-                return StatusCode(500);
-            }
-        }
+        
 
         [Authorize]
         [HttpPost]

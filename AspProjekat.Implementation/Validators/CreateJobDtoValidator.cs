@@ -12,6 +12,7 @@ namespace AspProjekat.Implementation.Validators
         public CreateJobDtoValidator(AspContext context)
         {
             ctx = context;
+            CascadeMode = CascadeMode.StopOnFirstFailure;
 
             RuleFor(x => x.PositionId)
                 .Must(ExistInPositions).WithMessage("Position with an ID of {PropertyValue} does not exist.");

@@ -1,83 +1,62 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AspProjekat.Application.DTO;
+using AspProjekat.Application.UseCases.Commands.Jobs;
+using AspProjekat.Application;
+using AspProjekat.DataAccess;
+using AspProjekat.Domain;
+using AspProjekat.Implementation.UseCases.Commands.Jobs;
+using AspProjekat.Implementation;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using AspProjekat.Application.UseCases.Commands.Companies;
+using AspProjekat.Application.UseCases.Queries;
 
 namespace AspProjekat.API.Controllers
 {
-    public class CompanyController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CompanyController : ControllerBase
     {
-        // GET: CompanyController
-        public ActionResult Index()
+        private IApplicationActor _actor;
+        private UseCaseHandler _handler;
+        private AspContext _context;
+        public CompanyController(IApplicationActor actor, UseCaseHandler handler, AspContext context)
         {
-            return View();
+            _actor = actor;
+            _handler = handler;
+            _context = context;
         }
 
-        // GET: CompanyController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+        [HttpGet]
+        public IActionResult Get([FromQuery] CompanySearch search, [FromServices] IGetCompaniesQuery query)
+          => Ok(_handler.HandleQuery(query, search));
 
-        // GET: CompanyController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: CompanyController/Create
+        [Authorize]
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        [Consumes("multipart/form-data")]
+        public IActionResult Post([FromForm] CreateCompanyDto dto,
+                                  [FromServices] ICreateCompanyCommand command)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            _handler.HandleCommand(command, dto);
+
+            return StatusCode(201);
         }
 
-        // GET: CompanyController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
 
-        // POST: CompanyController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+            Company company = _context.Companies.Find(id);
 
-        // GET: CompanyController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+            if (company == null)
+            {
+                return NotFound();
+            }
 
-        // POST: CompanyController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            company.IsActive = false;
+            _context.SaveChanges();
+
+            return NoContent();
         }
     }
 }

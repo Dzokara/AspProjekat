@@ -9,6 +9,8 @@ using AspProjekat.Application.UseCases.Queries;
 using AspProjekat.Implementation.UseCases.Queries;
 using AspProjekat.Implementation.UseCases.Commands.Jobs;
 using AspProjekat.Application.UseCases.Commands.Jobs;
+using AspProjekat.Application.UseCases.Commands.Companies;
+using AspProjekat.Implementation.UseCases.Commands.Companies;
 
 namespace AspProjekat.API.Core
 {
@@ -16,10 +18,9 @@ namespace AspProjekat.API.Core
     {
         public static void AddUseCases(this IServiceCollection services)
         {
-            //services.AddTransient<CreateCategoryDtoValidator>();
             services.AddTransient<UpdateUserAccessDtoValidator>();
-            //services.AddTransient<CreateImagePostDtoValidator>();
-            //services.AddTransient<ICreateCategoryCommand, EfCreateCategoryCommand>();
+            services.AddTransient<CreateCompanyDtoValidator>();
+            services.AddTransient<ICreateCompanyCommand, EfCreateCompanyCommand>();
             services.AddTransient<IUpdateUseAccessCommand, EfUpdateUserAccessCommand>();
             services.AddTransient<IGetJobsQuery,EfGetJobsQuery>();
             services.AddTransient<UseCaseHandler>();
@@ -30,6 +31,7 @@ namespace AspProjekat.API.Core
             services.AddTransient<IGetUsersQuery, EfGetUsersQuery>();
             services.AddTransient<ILikeJobCommand, EfLikeJobCommand>();
             services.AddTransient<ICreateJobCommand, EfCreateJobCommand>();
+            services.AddTransient<IGetCompaniesQuery, EfGetCompaniesQuery>();
         }
 
         public static Guid? GetTokenId(this HttpRequest request)

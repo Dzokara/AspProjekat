@@ -20,8 +20,4 @@
     <ProjectReference Include="..\AspProjekat.Domain\AspProjekat.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UseCases\Commands\Companies\" />
-  </ItemGroup>
-
 </Project>
