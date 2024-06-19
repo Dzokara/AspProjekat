@@ -17,6 +17,12 @@ using AspProjekat.Application.UseCases.Commands.Categories;
 using AspProjekat.Implementation.UseCases.Commands.Categories;
 using AspProjekat.Application.UseCases.Commands.Technologies;
 using AspProjekat.Implementation.UseCases.Commands.Technologies;
+using AspProjekat.Application.UseCases.Commands.Region;
+using AspProjekat.Implementation.UseCases.Commands.Region;
+using AspProjekat.Application.UseCases.Commands.Positions;
+using AspProjekat.Implementation.UseCases.Commands.Positions;
+using AspProjekat.Application.UseCases.Commands.Blogs;
+using AspProjekat.Implementation.UseCases.Commands.Blogs;
 
 namespace AspProjekat.API.Core
 {
@@ -47,6 +53,15 @@ namespace AspProjekat.API.Core
             services.AddTransient<CreateTechnologyDtoValidator>();
             services.AddTransient<IGetTechnologiesQuery, EfGetTechnologiesQuery>();
             services.AddTransient<ICreateTechnologyCommand, EfCreateTechnologyCommand>();
+            services.AddTransient<CreateRegionDtoValidator>();
+            services.AddTransient<ICreateRegionCommand,EfCreateRegionCommand>();
+            services.AddTransient<IGetRegionQuery,EfGetRegionQuery>();
+            services.AddTransient<CreatePositionDtoValidator>();
+            services.AddTransient<ICreatePositionCommand, EfCreatePositionCommand>();
+            services.AddTransient<IGetPositionsQuery, EfGetPositionsQuery>();
+            services.AddTransient<CreateBlogDtoValidator>();
+            services.AddTransient<ICreateBlogCommand, EfCreateBlogCommand>();
+            services.AddTransient<IGetBlogsQuery, EfGetBlogsQuery>();
         }
 
         public static Guid? GetTokenId(this HttpRequest request)
