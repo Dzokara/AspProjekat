@@ -61,5 +61,18 @@ namespace AspProjekat.API.Controllers
 
             return NoContent();
         }
+
+        [Authorize]
+        [HttpPut("{id}")]
+        [Consumes("multipart/form-data")]
+        public IActionResult UpdateBlog(int id,[FromForm] UpdateBlogDto dto,
+                                  [FromServices] IUpdateBlogCommand command)
+        {
+            dto.Id = id;
+
+            _handler.HandleCommand(command, dto);
+
+            return StatusCode(201);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AspProjekat.Application;
 using AspProjekat.Application.DTO;
+using AspProjekat.Application.UseCases.Commands.Companies;
 using AspProjekat.Application.UseCases.Commands.Jobs;
 using AspProjekat.Application.UseCases.Queries;
 using AspProjekat.DataAccess;
@@ -73,6 +74,18 @@ namespace AspProjekat.API.Controllers
             _context.Jobs.Remove(job);
 
             return NoContent();
+        }
+
+        [Authorize]
+        [HttpPut("{id}")]
+        public IActionResult UpdateJob(int id, [FromForm] UpdateJobDto dto,
+                                 [FromServices] IUpdateJobCommand command)
+        {
+            dto.Id = id;
+
+            _handler.HandleCommand(command, dto);
+
+            return StatusCode(201);
         }
     }
 }

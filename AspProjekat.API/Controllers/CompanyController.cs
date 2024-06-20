@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using AspProjekat.Application.UseCases.Commands.Companies;
 using AspProjekat.Application.UseCases.Queries;
+using AspProjekat.Application.UseCases.Commands.Blogs;
 
 namespace AspProjekat.API.Controllers
 {
@@ -62,6 +63,19 @@ namespace AspProjekat.API.Controllers
             _context.SaveChanges();
 
             return NoContent();
+        }
+
+        [Authorize]
+        [HttpPut("{id}")]
+        [Consumes("multipart/form-data")]
+        public IActionResult UpdateCompany(int id, [FromForm] UpdateCompanyDto dto,
+                                 [FromServices] IUpdateCompanyCommand command)
+        {
+            dto.Id = id;
+
+            _handler.HandleCommand(command, dto);
+
+            return StatusCode(201);
         }
     }
 }
