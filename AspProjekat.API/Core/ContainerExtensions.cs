@@ -75,6 +75,10 @@ namespace AspProjekat.API.Core
             services.AddTransient<IGetSingleCompanyQuery,EfGetSingleCompanyQuery>();
             services.AddTransient<IGetSingleJobQuery, EfGetSingleJobQuery>();
             services.AddTransient<IGetSingleBlogQuery,EfGetSingleBlogQuery>();
+            services.AddTransient<IUpdateBenefitCommand,EfUpdateBenefitCommand>();
+            services.AddTransient<UpdateBenefitDtoValidator>();
+            services.AddTransient<IUpdateCategoryCommand,EfUpdateCategoryCommand>();
+            services.AddTransient<UpdateCategoryDtoValidator>();
         }
 
         public static Guid? GetTokenId(this HttpRequest request)

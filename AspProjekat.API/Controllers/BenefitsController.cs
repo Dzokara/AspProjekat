@@ -8,6 +8,7 @@ using AspProjekat.Implementation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using AspProjekat.Application.UseCases.Commands.Users;
 
 namespace AspProjekat.API.Controllers
 {
@@ -49,6 +50,15 @@ namespace AspProjekat.API.Controllers
 
             benefit.IsActive = false;
             _context.SaveChanges();
+
+            return NoContent();
+        }
+        [HttpPut("{id}")]
+        public IActionResult UpdateBenefit(int id, [FromBody] UpdateBenefitDto dto,
+                                                  [FromServices] IUpdateBenefitCommand command)
+        {
+            dto.Id = id;
+            _handler.HandleCommand(command, dto);
 
             return NoContent();
         }

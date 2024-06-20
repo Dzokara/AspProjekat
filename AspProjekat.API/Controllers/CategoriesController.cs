@@ -53,5 +53,14 @@ namespace AspProjekat.API.Controllers
 
             return NoContent();
         }
+        [HttpPut("{id}")]
+        public IActionResult UpdateCateogry(int id, [FromBody] UpdateCategoryDto dto,
+                                                 [FromServices] IUpdateCategoryCommand command)
+        {
+            dto.Id = id;
+            _handler.HandleCommand(command, dto);
+
+            return NoContent();
+        }
     }
 }
