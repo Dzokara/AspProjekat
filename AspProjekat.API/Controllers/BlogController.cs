@@ -30,6 +30,10 @@ namespace AspProjekat.API.Controllers
         public IActionResult Get([FromQuery] PagedSearch search, [FromServices] IGetBlogsQuery query)
           => Ok(_handler.HandleQuery(query, search));
 
+        [HttpGet("{id}")]
+        public IActionResult GetSingle(int id, [FromServices] IGetSingleBlogQuery query)
+         => Ok(_handler.HandleQuery(query, id));
+
         [Authorize]
         [HttpPost]
         [Consumes("multipart/form-data")]

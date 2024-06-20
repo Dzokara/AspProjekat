@@ -31,6 +31,10 @@ namespace AspProjekat.API.Controllers
         public IActionResult Get([FromQuery] JobSearch search, [FromServices] IGetJobsQuery query)
           => Ok(_handler.HandleQuery(query, search));
 
+        [HttpGet("{id}")]
+        public IActionResult GetSingle(int id, [FromServices] IGetSingleJobQuery query)
+          => Ok(_handler.HandleQuery(query, id));
+
         [Authorize]
         [HttpPost]
         public IActionResult Post([FromBody] CreateJobDto dto,

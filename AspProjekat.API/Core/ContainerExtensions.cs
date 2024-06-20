@@ -72,6 +72,9 @@ namespace AspProjekat.API.Core
             services.AddTransient<ICreateTestimonialCommand,EfCreateTestimonialCommand>();
             services.AddTransient<IGetTestimonialsQuery,EfGetTestimonialsQuery>();
             services.AddTransient<IGetAuditLogQuery,EfGetAuditLogsQuery>();
+            services.AddTransient<IGetSingleCompanyQuery,EfGetSingleCompanyQuery>();
+            services.AddTransient<IGetSingleJobQuery, EfGetSingleJobQuery>();
+            services.AddTransient<IGetSingleBlogQuery,EfGetSingleBlogQuery>();
         }
 
         public static Guid? GetTokenId(this HttpRequest request)

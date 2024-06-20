@@ -31,6 +31,11 @@ namespace AspProjekat.API.Controllers
         public IActionResult Get([FromQuery] CompanySearch search, [FromServices] IGetCompaniesQuery query)
           => Ok(_handler.HandleQuery(query, search));
 
+
+        [HttpGet("{id}")]
+        public IActionResult GetSingle(int id, [FromServices] IGetSingleCompanyQuery query)
+          => Ok(_handler.HandleQuery(query, id));
+
         [Authorize]
         [HttpPost]
         [Consumes("multipart/form-data")]
