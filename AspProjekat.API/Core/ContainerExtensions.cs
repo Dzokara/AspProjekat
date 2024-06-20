@@ -79,6 +79,12 @@ namespace AspProjekat.API.Core
             services.AddTransient<UpdateBenefitDtoValidator>();
             services.AddTransient<IUpdateCategoryCommand,EfUpdateCategoryCommand>();
             services.AddTransient<UpdateCategoryDtoValidator>();
+            services.AddTransient<UpdateRegionDtoValidator>();
+            services.AddTransient<IUpdateRegionCommand,EfUpdateRegionCommand>();
+            services.AddTransient<UpdateTechnologyDtoValidator>();
+            services.AddTransient<IUpdateTechnologyCommand,EfUpdateTechnologyCommand>();
+            services.AddTransient<IUpdatePositionCommand,EfUpdatePositionCommand>();
+            services.AddTransient<UpdatePositionDtoValidator>();
         }
 
         public static Guid? GetTokenId(this HttpRequest request)

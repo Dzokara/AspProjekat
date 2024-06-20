@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using AspProjekat.Application.UseCases.Commands.Region;
+using AspProjekat.Application.UseCases.Commands.Benefits;
 
 namespace AspProjekat.API.Controllers
 {
@@ -50,6 +51,15 @@ namespace AspProjekat.API.Controllers
 
             region.IsActive = false;
             _context.SaveChanges();
+
+            return NoContent();
+        }
+        [HttpPut("{id}")]
+        public IActionResult UpdateRegion(int id, [FromBody] UpdateRegionDto dto,
+                                                  [FromServices] IUpdateRegionCommand command)
+        {
+            dto.Id = id;
+            _handler.HandleCommand(command, dto);
 
             return NoContent();
         }

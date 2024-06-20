@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using AspProjekat.Application.UseCases.Commands.Technologies;
+using AspProjekat.Application.UseCases.Commands.Region;
 
 namespace AspProjekat.API.Controllers
 {
@@ -53,6 +54,16 @@ namespace AspProjekat.API.Controllers
 
                 return NoContent();
             }
-        }
+
+            [HttpPut("{id}")]
+            public IActionResult UpdateTechnology(int id, [FromBody] UpdateTechnologyDto dto,
+                                                      [FromServices] IUpdateTechnologyCommand command)
+            {
+                dto.Id = id;
+                _handler.HandleCommand(command, dto);
+
+                return NoContent();
+            }
+    }
     }
 

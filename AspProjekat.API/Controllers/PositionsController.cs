@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using AspProjekat.Application.UseCases.Commands.Positions;
+using AspProjekat.Application.UseCases.Commands.Technologies;
 
 namespace AspProjekat.API.Controllers
 {
@@ -50,6 +51,16 @@ namespace AspProjekat.API.Controllers
 
             position.IsActive = false;
             _context.SaveChanges();
+
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdatePosition(int id, [FromBody] UpdatePositionDto dto,
+                                                      [FromServices] IUpdatePositionCommand command)
+        {
+            dto.Id = id;
+            _handler.HandleCommand(command, dto);
 
             return NoContent();
         }
