@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AspProjekat.Application.UseCases.Queries
 {
-    public interface IGetBlogsQuery : IQuery<PagedResponse<BlogDto>,PagedSearch>
+    public interface IGetBlogsQuery : IQuery<PagedResponse<BlogDto>, PagedSearch>
     {
     }
 }

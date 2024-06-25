@@ -15,9 +15,9 @@ namespace AspProjekat.Implementation.UseCases.Queries
         {
         }
 
-        public int Id => 3;
+        public int Id => 2;
 
-        public string Name => "Search Users";
+        public string Name => "Search Jobs";
 
         public PagedResponse<JobDto> Execute(JobSearch search)
         {

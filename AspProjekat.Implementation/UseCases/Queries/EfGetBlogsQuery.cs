@@ -16,7 +16,7 @@ namespace AspProjekat.Implementation.UseCases.Queries
         {
         }
 
-        public int Id => 3;
+        public int Id => 2;
 
         public string Name => "Search Blogs";
 
@@ -44,11 +44,12 @@ namespace AspProjekat.Implementation.UseCases.Queries
                     Title = x.Title,
                     Description = x.Description,
                     Image = x.Image.Path,
+                    Date = x.CreatedAt,
                     Comments = x.Comments.Select(c => new CommentDto
                     {
                         AuthorId = c.AuthorId,
                         Text = c.Text,
-                        BlogId = c.BlogId
+                        BlogId = c.BlogId,
                     }).ToList()
                 }).ToList(),
                 PerPage = perPage,
