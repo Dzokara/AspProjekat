@@ -1,4 +1,6 @@
-﻿namespace AspProjekat.API.DTO
+﻿using AspProjekat.Application.DTO;
+
+namespace AspProjekat.API.DTO
 {
      public class AuthRequest
     {
@@ -9,5 +11,6 @@
     public class AuthResponse
     {
         public string Token { get; set; }
+
     }
 }

@@ -15,7 +15,7 @@ namespace AspProjekat.Implementation.UseCases.Queries
         {
         }
 
-        public int Id => 3;
+        public int Id => 2;
 
         public string Name => "Search Positions";
 

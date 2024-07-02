@@ -71,7 +71,8 @@ namespace AspProjekat.API.Controllers
                 return Conflict(new { error = "Job is liked by people." });
             }
 
-            _context.Jobs.Remove(job);
+            job.IsActive = false;
+            _context.SaveChanges();
 
             return NoContent();
         }
@@ -84,7 +85,7 @@ namespace AspProjekat.API.Controllers
             dto.Id = id;
 
             _handler.HandleCommand(command, dto);
-
+            _context.SaveChanges();
             return StatusCode(201);
         }
     }

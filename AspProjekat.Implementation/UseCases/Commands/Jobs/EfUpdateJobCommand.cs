@@ -12,14 +12,16 @@ namespace AspProjekat.Implementation.UseCases.Commands.Jobs
     public class EfUpdateJobCommand : EfUseCase, IUpdateJobCommand
     {
         private readonly UpdateJobDtoValidator _validator;
+        private readonly AspContext _context;
 
         public EfUpdateJobCommand(AspContext context, UpdateJobDtoValidator validator)
             : base(context)
         {
             _validator = validator;
+            _context = context;
         }
 
-        public int Id => 5;
+        public int Id => 6;
         public string Name => "Update Job";
 
         public void Execute(UpdateJobDto request)
@@ -48,7 +50,7 @@ namespace AspProjekat.Implementation.UseCases.Commands.Jobs
             UpdateJobBenefits(job, request.BenefitIds);
             UpdateJobCategories(job, request.CategoryIds);
 
-            Context.SaveChanges();
+            _context.SaveChanges();
         }
 
         private void UpdateJobTechnologies(Job job, IEnumerable<int>? technologyIds)

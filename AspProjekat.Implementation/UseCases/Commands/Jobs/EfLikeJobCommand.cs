@@ -18,7 +18,7 @@ namespace AspProjekat.Implementation.UseCases.Commands.Jobs
             _actor = actor;
         }
 
-        public int Id => 6;
+        public int Id => 5;
 
         public string Name => "Job like";
 

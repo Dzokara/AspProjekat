@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace AspProjekat.Implementation.UseCases.Queries
 {
@@ -26,9 +27,14 @@ namespace AspProjekat.Implementation.UseCases.Queries
                 .Select(x => new JobDto
                 {
                     Id = x.Id,
-                    Position = x.Position.Name,
+                    Position = new PositionDto
+                    {
+                        Id = x.PositionId,
+                        Name = x.Position.Name
+                    },
                     Company = new CompanyDto
                     {
+                        Id=x.CompanyId,
                         Name = x.Company.Name,
                         Image = x.Company.Image.Path,
                         Description = x.Company.Description
@@ -38,8 +44,16 @@ namespace AspProjekat.Implementation.UseCases.Queries
                         Id = t.TechnologyId,
                         Name = t.Technology.Name
                     }).ToList(),
-                    Region = x.Region.Name,
-                    Type = x.Type.Name,
+                    Region = new RegionDto
+                    {
+                        Id = x.RegionId,
+                        Name = x.Region.Name,
+                    },
+                    Type = new TypeDto
+                    {
+                        Id= x.TypeId,
+                        Name = x.Type.Name
+                    },
                     Description = x.Description,
                     Salary = x.Salary,
                     Benefits = x.Benefits.Select(b => new BenefitDto
@@ -53,7 +67,11 @@ namespace AspProjekat.Implementation.UseCases.Queries
                         Name = b.Category.Name
                     }).ToList(),
                     Deadline = x.Deadline,
-                    Remote = x.Remote.Name
+                    Remote = new RemoteDto
+                    {
+                        Id = x.RemoteId,
+                        Name = x.Remote.Name
+                    }
                 })
                 .FirstOrDefault();
 

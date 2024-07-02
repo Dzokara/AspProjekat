@@ -40,7 +40,6 @@ namespace AspProjekat.Implementation.UseCases.Commands.Blogs
 
             blog.Title = request.Title;
             blog.Description = request.Description;
-            blog.IsActive = request.isActive;
 
             if (request.Image != null)
             {

@@ -15,7 +15,7 @@ namespace AspProjekat.Implementation.UseCases.Queries
         {
         }
 
-        public int Id => 3;
+        public int Id => 2;
 
         public string Name => "Search Users";
 
@@ -48,6 +48,7 @@ namespace AspProjekat.Implementation.UseCases.Queries
                     FirstName = x.FirstName,
                     LastName = x.LastName,
                     Username = x.Username,
+                    UseCaseIds = x.UseCases.Select(uc => uc.UseCaseId)
                 }).ToList(),
                 PerPage = perPage,
                 TotalCount = totalCount,

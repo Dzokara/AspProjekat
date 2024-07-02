@@ -63,6 +63,8 @@ namespace AspProjekat.Implementation.UseCases.Queries
                 query = query.Where(x => x.Categories.Any(t => categoryIds.Contains(t.CategoryId)));
             }
 
+            query = query.Where(x => x.IsActive);
+
             int totalCount = query.Count();
 
             int perPage = search.PerPage.HasValue ? (int)Math.Abs((double)search.PerPage) : 10;
@@ -78,9 +80,14 @@ namespace AspProjekat.Implementation.UseCases.Queries
                 Data = query.Select(x => new JobDto
                 {
                     Id = x.Id,
-                    Position = x.Position.Name,
+                    Position = new PositionDto
+                    {
+                        Id= x.PositionId,
+                        Name = x.Position.Name
+                    },
                     Company = new CompanyDto
                     {
+                        Id=x.CompanyId,
                         Name = x.Company.Name,
                         Image = x.Company.Image.Path,
                         Description = x.Company.Description
@@ -90,8 +97,16 @@ namespace AspProjekat.Implementation.UseCases.Queries
                         Id = t.TechnologyId,
                         Name = t.Technology.Name
                     }).ToList(),
-                    Region = x.Region.Name,
-                    Type = x.Type.Name,
+                    Region = new RegionDto
+                    {
+                        Id = x.RegionId,
+                        Name = x.Region.Name
+                    },
+                    Type = new TypeDto
+                    {
+                        Id = x.TypeId,
+                        Name = x.Type.Name
+                    },
                     Description = x.Description,
                     Salary = x.Salary,
                     Benefits = x.Benefits.Select(b => new BenefitDto
@@ -105,7 +120,11 @@ namespace AspProjekat.Implementation.UseCases.Queries
                         Name = b.Category.Name
                     }).ToList(),
                     Deadline = x.Deadline,
-                    Remote = x.Remote.Name
+                    Remote = new RemoteDto
+                    {
+                        Id = x.RemoteId,
+                        Name = x.Remote.Name
+                    }
 
                 }).ToList(),
                 PerPage = perPage,
