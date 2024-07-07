@@ -31,7 +31,6 @@ namespace AspProjekat.API.Controllers
         public IActionResult Delete([FromServices] ITokenStorage storage)
         {
             storage.Remove(this.Request.GetTokenId().Value);
-
             return NoContent();
         }
     }

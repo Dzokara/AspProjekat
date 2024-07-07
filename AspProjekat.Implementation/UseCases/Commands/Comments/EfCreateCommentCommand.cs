@@ -15,7 +15,7 @@ namespace AspProjekat.Implementation.UseCases.Commands.Comments
 {
     public class EfCreateCommentCommand : EfUseCase, ICreateCommentCommand
     {
-        public int Id => 4;
+        public int Id => 5;
         public string Name => "Create Comment";
 
         private readonly CreateCommentDtoValidator _validator;

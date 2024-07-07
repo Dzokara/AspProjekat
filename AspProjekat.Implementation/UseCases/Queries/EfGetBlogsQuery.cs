@@ -50,6 +50,12 @@ namespace AspProjekat.Implementation.UseCases.Queries
                         AuthorId = c.AuthorId,
                         Text = c.Text,
                         BlogId = c.BlogId,
+                        Date = c.CreatedAt,
+                        User = new UserDto
+                        {
+                            Id = c.Author.Id,
+                            Username = c.Author.Username,
+                        }
                     }).ToList()
                 }).ToList(),
                 PerPage = perPage,

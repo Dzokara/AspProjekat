@@ -40,6 +40,7 @@ namespace AspProjekat.Implementation.UseCases.Commands.Users
                 Username = data.Username,
                 UseCases = new List<UserUseCase>()
                 {
+                    new UserUseCase { UseCaseId = 2 },
                     new UserUseCase { UseCaseId = 3 },
                     new UserUseCase { UseCaseId = 5 }
                 }
